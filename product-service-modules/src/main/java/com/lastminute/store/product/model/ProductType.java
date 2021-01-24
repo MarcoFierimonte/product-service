@@ -10,6 +10,10 @@ public enum ProductType {
 
     private Integer code;
     private String description;
+
+    /**
+     * The amount of basic taxaction for the product type
+     */
     private Float taxValue;
 
     ProductType(Integer code, String description, Float taxValue) {

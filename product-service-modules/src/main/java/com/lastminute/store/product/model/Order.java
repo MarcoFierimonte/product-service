@@ -46,7 +46,8 @@ public class Order {
         if (!getProducts().isEmpty()) {
             int productSize = getProducts().size();
             Product lastInsertProduct = getProducts().get(productSize - 1);
-            if(!product.getOrderId().equals(lastInsertProduct.getOrderId())) {
+            if (!product.getOrderId()
+                        .equals(lastInsertProduct.getOrderId())) {
                 throw new InvalidProductException("Product with id=[" + product.getProductId() + "] belongs to a different order.");
             }
         }
@@ -65,6 +66,7 @@ public class Order {
         return this;
     }
 
+
     public List<Product> getProducts() {
         if (products == null) {
             products = new ArrayList<>();
@@ -79,6 +81,7 @@ public class Order {
     public void setOrderId(Integer orderId) {
         this.orderId = orderId;
     }
+
 
     public Date getDate() {
         return date;

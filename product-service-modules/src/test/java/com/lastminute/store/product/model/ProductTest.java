@@ -14,15 +14,15 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 public class ProductTest {
 
     @Nested
-    class CalculateSaleTaxesTest {
+    class CalculateBasicSaleTaxesTest {
 
         @Test
         void whenProductTypeIsNotGenericThenReturnZero() {
             // given
-            Product input = new Product("Harry Potter", 212, ProductType.BOOK, Decimal.of(15));
+            Product input = new Product("id1", "Harry Potter", 212, ProductType.BOOK, Decimal.of(15), Boolean.FALSE);
 
             // when
-            Tax actual = input.getSalesTaxes();
+            Tax actual = input.getBasicSalesTaxes();
 
             // then
             assertThat(actual.getValue()).isZero();
@@ -31,31 +31,55 @@ public class ProductTest {
         @Test
         void whenProductTypeIsGenericThenReturnTaxes() {
             // given
-            Product input = new Product("Red Pencil", 212, ProductType.GENERIC, Decimal.of(2));
+            Product input = new Product("id1", "Red Pencil", 212, ProductType.GENERIC, Decimal.of(2), Boolean.FALSE);
 
             // when
-            Tax actual = input.getSalesTaxes();
+            Tax actual = input.getBasicSalesTaxes();
 
             // then
             assertThat(actual.getValue()).isNotZero();
         }
+
     }
 
-    static Stream<Arguments> inputPrice() {
+    static Stream<Arguments> inputProductNotImported() {
         return Stream.of(
-                // (netPrice, productType, expectetResult)
-                arguments(Decimal.of(15.82), ProductType.BOOK, Decimal.of(16.611))
+                // (netPrice, name, productType, expectetResult)
+                arguments(Decimal.of(12.49), "Harry Potter", ProductType.BOOK, Decimal.of(12.49)),
+                arguments(Decimal.of(14.99), "Pillow", ProductType.GENERIC, Decimal.of(16.49))
+        );
+    }
+
+    static Stream<Arguments> inputProductImported() {
+        return Stream.of(
+                // (netPrice, name, productType, expectetResult)
+                arguments(Decimal.of(10), "Box of chocolate", ProductType.FOOD, Decimal.of(10.5)),
+                arguments(Decimal.of(47.50), "Perfume", ProductType.GENERIC, Decimal.of(54.65)),
+                arguments(Decimal.of(21.36), "Aspirin", ProductType.MEDICAL, Decimal.of(22.41))
         );
     }
 
     @Nested
     class CalculateGrossAmountTest {
 
-        @ParameterizedTest(name = "#{index} - Params: netPrice={0}, productType={1}, expectetResult={2}")
-        @MethodSource("com.lastminute.store.product.model.ProductTest#inputPrice")
-        void shouldComputeGrossAmount(Decimal netPrice, ProductType productType, Decimal expectedResult) {
+        @ParameterizedTest(name = "#{index} - Params: netPrice={0}, name={1}, productType={2}, expectetResult={3}")
+        @MethodSource("com.lastminute.store.product.model.ProductTest#inputProductNotImported")
+        void shouldComputeGrossAmountNotImported(Decimal netPrice, String name, ProductType productType, Decimal expectedResult) {
             // given
-            Product input = new Product("Harry Potter", 212, productType, netPrice);
+            Product input = new Product("id1", name, 212, productType, netPrice, Boolean.FALSE);
+
+            // when
+            Decimal actual = input.totalGrossAmount();
+
+            // then
+            assertThat(actual).isEqualTo(expectedResult);
+        }
+
+        @ParameterizedTest(name = "#{index} - Params: netPrice={0}, name={1}, productType={2}, expectetResult={3}")
+        @MethodSource("com.lastminute.store.product.model.ProductTest#inputProductImported")
+        void shouldComputeGrossAmountImported(Decimal netPrice,  String name, ProductType productType, Decimal expectedResult) {
+            // given
+            Product input = new Product("id1", name, 212, productType, netPrice, Boolean.TRUE);
 
             // when
             Decimal actual = input.totalGrossAmount();

@@ -24,10 +24,8 @@ public class OrderTest {
             // given
             Order order = new Order(NOW, 99);
             order.setOrderId(212);
-            Product p1 = new Product("Harry Potter", order.getOrderId(), ProductType.BOOK, Decimal.of(15));
-            p1.setProductId(1);
-            Product p2 = new Product("Red Pencil", order.getOrderId(), ProductType.GENERIC, Decimal.of(2));
-            p1.setProductId(2);
+            Product p1 = new Product("id1", "Harry Potter", order.getOrderId(), ProductType.BOOK, Decimal.of(15), Boolean.FALSE);
+            Product p2 = new Product("id2", "Red Pencil", order.getOrderId(), ProductType.GENERIC, Decimal.of(2), Boolean.FALSE);
             // when
             order.addProduct(p1)
                  .addProduct(p2);
@@ -43,10 +41,8 @@ public class OrderTest {
             // given
             Order order = new Order(NOW, 99);
             order.setOrderId(212);
-            Product p1 = new Product("Harry Potter", order.getOrderId(), ProductType.BOOK, Decimal.of(15));
-            p1.setProductId(1);
-            Product p2 = new Product("Red Pencil", order.getOrderId(), ProductType.GENERIC, Decimal.of(2));
-            p2.setProductId(1);
+            Product p1 = new Product("id1", "Harry Potter", order.getOrderId(), ProductType.BOOK, Decimal.of(15), Boolean.FALSE);
+            Product p2 = new Product("id1", "Red Pencil", order.getOrderId(), ProductType.GENERIC, Decimal.of(2), Boolean.FALSE);
 
             // when
             order.addProduct(p1);
@@ -57,7 +53,8 @@ public class OrderTest {
                     });
 
             // then
-            assertTrue(exception.getMessage().contains("id=[1]"));
+            assertTrue(exception.getMessage()
+                                .contains("id=[id1]"));
         }
 
         @Test
@@ -65,10 +62,8 @@ public class OrderTest {
             // given
             Order order = new Order(NOW, 99);
             order.setOrderId(212);
-            Product p1 = new Product("Harry Potter", order.getOrderId(), ProductType.BOOK, Decimal.of(15));
-            p1.setProductId(1);
-            Product p2 = new Product("Red Pencil", 111, ProductType.GENERIC, Decimal.of(2));
-            p2.setProductId(2);
+            Product p1 = new Product("id1", "Harry Potter", order.getOrderId(), ProductType.BOOK, Decimal.of(15), Boolean.FALSE);
+            Product p2 = new Product("id2", "Red Pencil", 111, ProductType.GENERIC, Decimal.of(2), Boolean.FALSE);
 
             // when
             order.addProduct(p1);
@@ -79,7 +74,8 @@ public class OrderTest {
                     });
 
             // then
-            assertTrue(exception.getMessage().contains("id=[2]"));
+            assertTrue(exception.getMessage()
+                                .contains("id=[id2]"));
         }
 
     }
