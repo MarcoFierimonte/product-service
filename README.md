@@ -1,3 +1,5 @@
+[![Develop Build](https://travis-ci.com/github/MarcoFierimonte/product-service.svg?branch=master)](https://travis-ci.com/github/MarcoFierimonte/product-service)
+
 # Product Service
 
 The project simulate a shopping basket application. Products have different kind of sales taxes applied:
