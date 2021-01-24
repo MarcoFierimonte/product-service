@@ -2,7 +2,7 @@ package com.lastminute.store.product.model;
 
 public class Product {
 
-    private static final double ROUNDING_RULE_VALUE = 0.05;
+    private static final float ROUNDING_RULE_VALUE = 0.05F;
 
     /**
      * The product identifier
@@ -25,30 +25,28 @@ public class Product {
     private Integer quantity;
 
     /**
-     * Total net price
+     * Single item net price
      */
-    private Double netPrice;
+    private Decimal netPrice;
 
     /**
-     * Sales taxes in cents
+     * Import duty value in cents.
      */
-    private Float salesTaxes;
-
-    /**
-     * Import duty value in cents
-     */
-    private Float importDuty;
+    private Tax importDuty;
 
     /**
      * Associated order id
      */
     private Integer orderId;
 
-    public Product(Integer productId, String name, Integer orderId, ProductType productType) {
+    public Product(Integer productId, String name, Integer orderId, ProductType productType, Decimal netPrice) {
         this.productId = productId;
         this.name = name;
         this.orderId = orderId;
         this.productType = productType;
+        this.netPrice = netPrice;
+        // default 0.05
+        this.importDuty = (Tax) Decimal.of(0.05);
     }
 
     /**
@@ -56,35 +54,37 @@ public class Product {
      *
      * @return the basic sales taxes
      */
-    public Float getSalesTaxes() {
-        switch (productType) {
-            case GENERIC:
-                return 0.1F;
-            case BOOK:
-            case FOOD:
-            case MEDICAL:
-            default:
-                return 0F;
-        }
+    public Tax getSalesTaxes() {
+        return (Tax) Decimal.of(productType.getTaxValue());
     }
 
     /**
-     * Return the total taxaction value for the products rounded up to the nearest 0.05.
+     * Return the total taxaction value for the product round to the nearest 5 cents.
      *
      * @return the total taxaction value
      */
-    public Double totalTaxaction() {
-        float saleTaxes = importDuty + getSalesTaxes();
-        return Math.round(saleTaxes / ROUNDING_RULE_VALUE) * ROUNDING_RULE_VALUE;
+    public Tax totalTaxaction() {
+        Decimal taxed = netPrice.multiply(importDuty.plus(getSalesTaxes()));
+        Decimal rounded = taxed.roundToNearest(ROUNDING_RULE_VALUE);
+        return (Tax) rounded.multiply(Decimal.of(getQuantity()));
     }
 
     /**
-     * Return the TOTAL gross amount for the product including its quantity.
+     * Return the TOTAL NET amount for the product including its quantity.
      *
      * @return the gross amount
      */
-    public Double grossAmount() {
-        return (netPrice + (netPrice * totalTaxaction())) * getQuantity();
+    public Decimal totalNetAmount() {
+        return netPrice.multiply(Decimal.of(getQuantity()));
+    }
+
+    /**
+     * Return the TOTAL GROSS amount for the product including its quantity.
+     *
+     * @return the gross amount
+     */
+    public Decimal totalGrossAmount() {
+        return totalNetAmount().plus(totalTaxaction());
     }
 
     public Integer getProductId() {
@@ -99,10 +99,6 @@ public class Product {
         return productType;
     }
 
-    public void setProductType(ProductType productType) {
-        this.productType = productType;
-    }
-
     public Integer getQuantity() {
         if (quantity == null) {
             quantity = 1;
@@ -114,24 +110,15 @@ public class Product {
         this.quantity = quantity;
     }
 
-    public Double getNetPrice() {
+    public Decimal getNetPrice() {
         return netPrice;
     }
 
-    public void setNetPrice(Double netPrice) {
-        this.netPrice = netPrice;
-    }
-
-
-    public void setSalesTaxes(Float salesTaxes) {
-        this.salesTaxes = salesTaxes;
-    }
-
-    public Float getImportDuty() {
+    public Tax getImportDuty() {
         return importDuty;
     }
 
-    public void setImportDuty(Float importDuty) {
+    public void setImportDuty(Tax importDuty) {
         this.importDuty = importDuty;
     }
 
@@ -139,31 +126,4 @@ public class Product {
         return orderId;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Product product = (Product) o;
-
-        return getProductId().equals(product.getProductId());
-    }
-
-    @Override
-    public int hashCode() {
-        return getProductId().hashCode();
-    }
-
-    @Override
-    public String toString() {
-        return "Product{" + "productId=" + productId +
-                ", name='" + name + '\'' +
-                ", productType=" + productType +
-                ", quantity=" + quantity +
-                ", netPrice=" + netPrice +
-                ", salesTaxes=" + salesTaxes +
-                ", importDuty=" + importDuty +
-                ", orderId=" + orderId +
-                '}';
-    }
 }

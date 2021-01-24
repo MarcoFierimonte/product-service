@@ -2,18 +2,20 @@ package com.lastminute.store.product.model;
 
 public enum ProductType {
 
-    GENERIC(0, "GENERIC"),
-    BOOK(1, "BOOK"),
-    FOOD(2, "FOOD"),
-    MEDICAL(3, "MEDICAL")
+    GENERIC(0, "GENERIC", 0.1F),
+    BOOK(1, "BOOK", 0F),
+    FOOD(2, "FOOD", 0F),
+    MEDICAL(3, "MEDICAL", 0F)
     ;
 
     private Integer code;
     private String description;
+    private Float taxValue;
 
-    ProductType(Integer code, String description) {
+    ProductType(Integer code, String description, Float taxValue) {
         this.code = code;
         this.description = description;
+        this.taxValue = taxValue;
     }
 
     public Integer getCode() {
@@ -22,5 +24,9 @@ public enum ProductType {
 
     public String getDescription() {
         return description;
+    }
+
+    public Float getTaxValue() {
+        return taxValue;
     }
 }
