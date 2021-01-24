@@ -1,4 +1,4 @@
-[![Develop Build](https://travis-ci.com/github/MarcoFierimonte/product-service.svg?branch=master)](https://travis-ci.com/github/MarcoFierimonte/product-service)
+[![Develop Build](https://travis-ci.com/MarcoFierimonte/product-service.svg?branch=master)](https://travis-ci.com/github/MarcoFierimonte/product-service)
 
 # Product Service
 
