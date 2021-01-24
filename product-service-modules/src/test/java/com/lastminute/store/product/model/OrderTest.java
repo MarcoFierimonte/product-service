@@ -37,7 +37,7 @@ public class OrderTest {
         }
 
         @Test
-        void twoProductWithSameIdshouldThrowAnException() {
+        void twoProductWithSameIdShouldThrowAnException() {
             // given
             Order order = new Order(NOW);
             order.setOrderId(212);
@@ -58,7 +58,7 @@ public class OrderTest {
         }
 
         @Test
-        void twoProductWithDifferentOrderIdshouldThrowAnException() {
+        void twoProductWithDifferentOrderIdShouldThrowAnException() {
             // given
             Order order = new Order(NOW);
             order.setOrderId(212);

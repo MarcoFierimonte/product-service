@@ -19,8 +19,10 @@ public class OrderService {
 
     public Order insertOrder(List<Product> products) {
         Order order = new Order(new Date());
-        order.setOrderId(1);
         order.add(products);
+        Integer orderId = products.get(0)
+                                  .getOrderId();
+        order.setOrderId(orderId);
         order.setReceiptNumber(availableReceipts.remove(0));
         order.build();
         return order;
