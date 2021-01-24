@@ -156,11 +156,18 @@ public class Order {
 
     @Override
     public String toString() {
-        return "Order{" + "orderId=" + orderId +
-                ", date=" + date +
-                ", receiptNumber=" + receiptNumber +
-                ", products=" + products +
+        return "Order{" + "orderId=" +
+                orderId +
+                ", date=" +
+                date +
+                ", receiptNumber=" +
+                receiptNumber +
+                ", products=" +
+                products +
+                ", totalPrice=" +
+                totalPrice +
+                ", totalTaxaction=" +
+                totalTaxaction +
                 '}';
     }
-
 }

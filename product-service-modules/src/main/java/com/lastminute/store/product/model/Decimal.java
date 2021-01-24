@@ -81,9 +81,7 @@ public class Decimal {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Decimal decimal = (Decimal) o;
-
         return getValue().equals(decimal.getValue());
     }
 
@@ -94,7 +92,7 @@ public class Decimal {
 
     @Override
     public String toString() {
-        return "Decimal{" + "value=" + value +
+        return "Decimal{" + "value=" + value.setScale(2, ROUNDING_MODE).toString() +
                 '}';
     }
 }

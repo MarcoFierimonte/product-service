@@ -168,6 +168,8 @@ public class Product {
                 quantity +
                 ", netPrice=" +
                 netPrice +
+                ", saleTaxes=" +
+                totalTaxaction() +
                 ", importDuty=" +
                 importDuty +
                 ", orderId=" +
