@@ -1,5 +1,6 @@
 package com.lastminute.store.product.service;
 
+import com.lastminute.store.product.exception.NoReceiptNumberAvailableException;
 import com.lastminute.store.product.model.Order;
 import com.lastminute.store.product.model.Product;
 
@@ -20,13 +21,20 @@ public class OrderService {
     public Order insertOrder(List<Product> products) {
         Order order = new Order(new Date());
         order.add(products);
+        // all products have the same order id
         Integer orderId = products.get(0)
                                   .getOrderId();
         order.setOrderId(orderId);
-        order.setReceiptNumber(availableReceipts.remove(0));
+        order.setReceiptNumber(generateReceiptNumber());
         order.build();
         return order;
     }
 
+    private Integer generateReceiptNumber() {
+        if (availableReceipts.isEmpty()) {
+            throw new NoReceiptNumberAvailableException("No more receipt numbers available");
+        }
+        return availableReceipts.remove(0);
+    }
 
 }
