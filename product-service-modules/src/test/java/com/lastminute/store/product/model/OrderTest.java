@@ -80,6 +80,28 @@ public class OrderTest {
 
     }
 
+    @Nested
+    class RemoveProductFromOrderTest {
+
+        @Test
+        void shouldRemoveTheProduct() {
+            // given
+            Order order = new Order(NOW, 99);
+            order.setOrderId(212);
+            Product p1 = new Product("id1", "Harry Potter", order.getOrderId(), ProductType.BOOK, Decimal.of(15), Boolean.FALSE);
+            Product p2 = new Product("id2", "Red Pencil", order.getOrderId(), ProductType.GENERIC, Decimal.of(2), Boolean.FALSE);
+            // when
+            order.addProduct(p1)
+                 .addProduct(p2);
+            order.removeProduct(p1);
+            // then
+            List<Product> orderProducts = order.getProducts();
+            assertThat(orderProducts.size()).isEqualTo(1);
+            assertThat(orderProducts.get(0).getProductId()).isEqualTo("id2");
+        }
+
+    }
+
 
 }
 

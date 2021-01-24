@@ -1,18 +1,25 @@
-# Getting Started
+# Product Service
 
-### Reference Documentation
-For further reference, please consider the following sections:
+The project simulate a shopping basket application. Products have different kind of sales taxes applied:
+ - basic sale taxaction: 10% to all products excepts books, food and medicals
+ - import duty taxaction: 5% to all imported products
 
-* [Official Apache Maven documentation](https://maven.apache.org/guides/index.html)
-* [Spring Boot Maven Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/2.4.2/maven-plugin/reference/html/)
-* [Create an OCI image](https://docs.spring.io/spring-boot/docs/2.4.2/maven-plugin/reference/html/#build-image)
-* [Spring Boot DevTools](https://docs.spring.io/spring-boot/docs/2.4.2/reference/htmlsingle/#using-boot-devtools)
-* [Spring Web](https://docs.spring.io/spring-boot/docs/2.4.2/reference/htmlsingle/#boot-features-developing-web-applications)
+## Building
+The project is built with Maven, and a wrapper in the root is provided.
+Run Gradle to build the project and to run the tests using the following command on Unix/macOS:
 
-### Guides
-The following guides illustrate how to use some features concretely:
+```bash
+./mvnw <tasks-and-options>
+```
 
-* [Building a RESTful Web Service](https://spring.io/guides/gs/rest-service/)
-* [Serving Web Content with Spring MVC](https://spring.io/guides/gs/serving-web-content/)
-* [Building REST services with Spring](https://spring.io/guides/tutorials/bookmarks/)
+or the following command on Windows:
 
+```dos
+mvnw <task-and-options>
+```
+
+### Execute test
+
+```bash
+./mvnw test
+```
