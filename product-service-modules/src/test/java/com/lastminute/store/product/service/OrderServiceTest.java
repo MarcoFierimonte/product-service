@@ -1,7 +1,11 @@
-package com.lastminute.store.product.model;
+package com.lastminute.store.product.service;
 
 import com.lastminute.store.product.exception.InvalidProductException;
 import com.lastminute.store.product.exception.ProductAlreadyExistException;
+import com.lastminute.store.product.model.Decimal;
+import com.lastminute.store.product.model.Order;
+import com.lastminute.store.product.model.Product;
+import com.lastminute.store.product.model.ProductType;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class OrderTest {
+public class OrderServiceTest {
 
     private static final Date NOW = new Date();
 
@@ -102,26 +106,6 @@ public class OrderTest {
 
     }
 
-    @Nested
-    class BuildOrderTest {
-
-        @Test
-        void shouldBuildTheOrder() {
-            // given
-            Order order = new Order(NOW);
-            order.setOrderId(1);
-            Product p1 = new Product("id1", "Harry Potter", order.getOrderId(), ProductType.BOOK, Decimal.of(15), Boolean.FALSE);
-            Product p2 = new Product("id2", "Red Pencil", order.getOrderId(), ProductType.GENERIC, Decimal.of(2), Boolean.FALSE);
-            // when
-            order.add(p1)
-                 .add(p2);
-            order.build();
-            // then
-            assertThat(order.getTotalPrice()).isEqualTo(Decimal.of(17.2));
-            assertThat(order.getTotalTaxaction()).isEqualTo(Decimal.of(0.2));
-        }
-
-    }
 
 }
 

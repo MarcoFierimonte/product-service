@@ -53,6 +53,11 @@ public class Decimal {
         return new Decimal(value.add(other.value));
     }
 
+    public Decimal minus(Decimal other) {
+        Objects.requireNonNull(other, "Cannot subtract with a null Decimal");
+        return new Decimal(value.subtract(other.value));
+    }
+
     public Decimal divide(Decimal other) {
         Objects.requireNonNull(other, "Cannot divide with a null Decimal");
         return new Decimal(value.divide(other.value, ROUNDING_MODE));

@@ -69,14 +69,14 @@ public class Product {
     }
 
     /**
-     * Return the total taxaction value for the product round to the nearest 5 cents.
+     * Return the total taxaction amount for the product round to the nearest 5 cents.
      *
      * @return the total taxaction value
      */
-    public Tax totalTaxaction() {
+    public Decimal totalTaxaction() {
         Decimal taxed = netPrice.multiply(importDuty.plus(getBasicSalesTaxes()));
         Decimal rounded = taxed.roundToNearest(ROUNDING_RULE_VALUE);
-        return Tax.of(rounded.multiply(Decimal.of(getQuantity())));
+        return rounded.multiply(Decimal.of(getQuantity()));
     }
 
     /**

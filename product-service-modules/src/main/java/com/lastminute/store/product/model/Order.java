@@ -24,11 +24,48 @@ public class Order {
      */
     private Integer receiptNumber;
 
+    /**
+     * The products of the order
+     */
     private List<Product> products;
 
-    public Order(Date date, Integer receiptNumber) {
+    /**
+     * The total gross price of this order
+     */
+    private Decimal totalPrice;
+
+    /**
+     * The order taxaction
+     */
+    private Decimal totalTaxaction;
+
+    public Order(Date date) {
         this.date = date;
-        this.receiptNumber = receiptNumber;
+    }
+
+    /**
+     * Build the order with all information related to products.
+     */
+    public void build() {
+        totalPrice = getProducts().stream()
+                                  .map(Product::totalGrossAmount)
+                                  .reduce(Decimal.of(0), Decimal::plus);
+        totalTaxaction = getProducts().stream()
+                                      .map(Product::totalTaxaction)
+                                      .reduce(Decimal.of(0), Decimal::plus);
+    }
+
+    /**
+     * Add several products.
+     *
+     * @param products the input products
+     * @return the updated order
+     */
+    public Order add(List<Product> products) {
+        for (Product p : products) {
+            add(p);
+        }
+        return this;
     }
 
     /**
@@ -37,7 +74,7 @@ public class Order {
      * @param product the input product
      * @return the updated order
      */
-    public Order addProduct(Product product) {
+    public Order add(Product product) {
         // each product in the order has unique ID
         if (getProducts().contains(product)) {
             throw new ProductAlreadyExistException("Product with id=[" + product.getProductId() + "] already present.");
@@ -82,6 +119,13 @@ public class Order {
         this.orderId = orderId;
     }
 
+    public Decimal getTotalPrice() {
+        return totalPrice;
+    }
+
+    public Decimal getTotalTaxaction() {
+        return totalTaxaction;
+    }
 
     public Date getDate() {
         return date;
@@ -89,6 +133,10 @@ public class Order {
 
     public Integer getReceiptNumber() {
         return receiptNumber;
+    }
+
+    public void setReceiptNumber(Integer receiptNumber) {
+        this.receiptNumber = receiptNumber;
     }
 
     @Override
@@ -114,4 +162,5 @@ public class Order {
                 ", products=" + products +
                 '}';
     }
+
 }
