@@ -39,14 +39,13 @@ public class Product {
      */
     private Integer orderId;
 
-    public Product(Integer productId, String name, Integer orderId, ProductType productType, Decimal netPrice) {
-        this.productId = productId;
+    public Product(String name, Integer orderId, ProductType productType, Decimal netPrice) {
         this.name = name;
         this.orderId = orderId;
         this.productType = productType;
         this.netPrice = netPrice;
         // default 0.05
-        this.importDuty = (Tax) Decimal.of(0.05);
+        this.importDuty = Tax.of(0.05);
     }
 
     /**
@@ -55,7 +54,7 @@ public class Product {
      * @return the basic sales taxes
      */
     public Tax getSalesTaxes() {
-        return (Tax) Decimal.of(productType.getTaxValue());
+        return Tax.of(productType.getTaxValue());
     }
 
     /**
@@ -66,7 +65,7 @@ public class Product {
     public Tax totalTaxaction() {
         Decimal taxed = netPrice.multiply(importDuty.plus(getSalesTaxes()));
         Decimal rounded = taxed.roundToNearest(ROUNDING_RULE_VALUE);
-        return (Tax) rounded.multiply(Decimal.of(getQuantity()));
+        return Tax.of(rounded.multiply(Decimal.of(getQuantity())));
     }
 
     /**
@@ -89,6 +88,10 @@ public class Product {
 
     public Integer getProductId() {
         return productId;
+    }
+
+    public void setProductId(Integer productId) {
+        this.productId = productId;
     }
 
     public String getName() {
@@ -126,4 +129,38 @@ public class Product {
         return orderId;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Product product = (Product) o;
+
+        return getProductId() != null ? getProductId().equals(product.getProductId()) : product.getProductId() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return getProductId() != null ? getProductId().hashCode() : 0;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" + "productId=" +
+                productId +
+                ", name='" +
+                name +
+                '\'' +
+                ", productType=" +
+                productType +
+                ", quantity=" +
+                quantity +
+                ", netPrice=" +
+                netPrice +
+                ", importDuty=" +
+                importDuty +
+                ", orderId=" +
+                orderId +
+                '}';
+    }
 }

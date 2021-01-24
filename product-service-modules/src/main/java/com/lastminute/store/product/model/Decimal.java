@@ -27,7 +27,7 @@ public class Decimal {
         return new Decimal(new BigDecimal(value));
     }
 
-    public Decimal(BigDecimal value) {
+    private Decimal(BigDecimal value) {
         this(value, SCALE);
     }
 
