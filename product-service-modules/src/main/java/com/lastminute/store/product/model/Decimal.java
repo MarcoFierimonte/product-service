@@ -37,15 +37,13 @@ public class Decimal {
     }
 
     /**
-     * Return this decimal rounded based on the param. Example param : "0.05")
+     * Return this decimal rounded to the nearest 0.05
      *
-     * @param roundingValue the value that define the rounding rule
      * @return the rounded decimal
      */
-    public Decimal roundToNearest(Float roundingValue) {
-        BigDecimal roundingValueBD = BigDecimal.valueOf(roundingValue).setScale(2, ROUNDING_MODE);;
-        return new Decimal(this.value.signum() == 0 ? value :
-                (value.divide(roundingValueBD, 0, ROUNDING_MODE)).multiply(roundingValueBD));
+    public Decimal roundToNearest5Cent() {
+        BigDecimal rounded = BigDecimal.valueOf(Math.ceil(value.doubleValue() * 20) / 20).setScale(2, ROUNDING_MODE);
+        return new Decimal(rounded);
     }
 
     public Decimal plus(Decimal other) {
@@ -92,6 +90,7 @@ public class Decimal {
 
     @Override
     public String toString() {
-        return value.setScale(2, ROUNDING_MODE).toString();
+        return value.setScale(2, ROUNDING_MODE)
+                    .toString();
     }
 }

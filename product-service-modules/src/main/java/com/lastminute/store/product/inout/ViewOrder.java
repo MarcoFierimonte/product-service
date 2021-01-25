@@ -14,8 +14,14 @@ public class ViewOrder implements DataViewer<Order> {
 
     @Override
     public void view(Order order) {
-        LOG.info("OUTPUT");
+        //
         List<Product> products = order.getProducts();
+        LOG.info("INPUT");
+        for (Product p : products) {
+            LOG.info("{} {} at {}", p.getQuantity(), p.getName(), p.getNetPrice());
+        }
+        LOG.info("");
+        LOG.info("OUTPUT");
         for (Product p : products) {
             LOG.info("{} {}: {}", p.getQuantity(), p.getName(), p.totalGrossAmount());
         }

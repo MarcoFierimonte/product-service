@@ -2,8 +2,6 @@ package com.lastminute.store.product.model;
 
 public class Product {
 
-    private static final float ROUNDING_RULE_VALUE = 0.05F;
-
     /**
      * The product identifier, like a bar code
      */
@@ -75,7 +73,7 @@ public class Product {
      */
     public Decimal totalTaxaction() {
         Decimal taxed = netPrice.multiply(importDuty.plus(getBasicSalesTaxes()));
-        Decimal rounded = taxed.roundToNearest(ROUNDING_RULE_VALUE);
+        Decimal rounded = taxed.roundToNearest5Cent();
         return rounded.multiply(Decimal.of(getQuantity()));
     }
 

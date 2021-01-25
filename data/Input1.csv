@@ -1,4 +1,4 @@
 # productId, type, name, netPrice, isImported, quantity, orderId
-0001, BOOK, book, 12.49, false, 1, 1s
+0001, BOOK, book, 12.49, false, 1, 1
 0002, GENERIC, music CD, 14.99, false, 1, 1
 0003, FOOD, chocolate bar, 0.85, false, 1, 1

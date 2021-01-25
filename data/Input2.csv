@@ -1,0 +1,3 @@
+# productId, type, name, netPrice, isImported, quantity, orderId
+0001, FOOD, imported box of chocolates, 10.00, true, 1, 1
+0002, GENERIC, imported bottle of perfume, 47.50, true, 1, 1

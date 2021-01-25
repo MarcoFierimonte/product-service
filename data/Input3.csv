@@ -1,0 +1,5 @@
+# productId, type, name, netPrice, isImported, quantity, orderId
+0001, GENERIC, imported bottle of perfume, 27.99, true, 1, 1
+0002, GENERIC, bottle of perfume, 18.99, false, 1, 1
+0003, MEDICAL, packet of headache pills, 9.75, false, 1, 1
+0004, FOOD, box of imported chocolates, 11.25, true, 1, 1

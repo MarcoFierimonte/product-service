@@ -53,9 +53,9 @@ public class ProductTest {
     static Stream<Arguments> inputProductImported() {
         return Stream.of(
                 // (netPrice, name, productType, expectetResult)
-                arguments(Decimal.of(10), "Box of chocolate", ProductType.FOOD, Decimal.of(10.5)),
+                arguments(Decimal.of(11.25), "Box of chocolate", ProductType.FOOD, Decimal.of(11.85)),
                 arguments(Decimal.of(47.50), "Perfume", ProductType.GENERIC, Decimal.of(54.65)),
-                arguments(Decimal.of(21.36), "Aspirin", ProductType.MEDICAL, Decimal.of(22.41))
+                arguments(Decimal.of(21.36), "Aspirin", ProductType.MEDICAL, Decimal.of(22.46))
         );
     }
 
@@ -77,7 +77,7 @@ public class ProductTest {
 
         @ParameterizedTest(name = "#{index} - Params: netPrice={0}, name={1}, productType={2}, expectetResult={3}")
         @MethodSource("com.lastminute.store.product.model.ProductTest#inputProductImported")
-        void shouldComputeGrossAmountImported(Decimal netPrice,  String name, ProductType productType, Decimal expectedResult) {
+        void shouldComputeGrossAmountImported(Decimal netPrice, String name, ProductType productType, Decimal expectedResult) {
             // given
             Product input = new Product("id1", name, 212, productType, netPrice, Boolean.TRUE);
 
