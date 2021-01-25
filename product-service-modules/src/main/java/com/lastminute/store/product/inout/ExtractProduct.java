@@ -17,9 +17,15 @@ public class ExtractProduct implements DataReader<Product> {
     private static final Integer ORDER_ID_POS = 6;
 
     @Override
-    public Product extract(String[] cells) {
+    public Product extract(String line) {
         Product product;
+        String[] cells = new String[0];
         try {
+            // extract data from CSV
+            cells = line.split(",");
+            if(cells.length != 7) {
+                throw new MalformedInputExceptionException("Wrong column numbers for file row=[" + line + "]. Expected 7, actual=[" + cells.length + "]");
+            }
             String productId = cells[ID_POS].trim();
             ProductType productType = ProductType.valueOf(cells[TYPE_POS].trim());
             String name = cells[NAME_POS].trim();

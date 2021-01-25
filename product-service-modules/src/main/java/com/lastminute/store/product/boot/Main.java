@@ -8,6 +8,7 @@ import com.lastminute.store.product.inout.api.DataViewer;
 import com.lastminute.store.product.model.Order;
 import com.lastminute.store.product.model.Product;
 import com.lastminute.store.product.service.OrderService;
+import com.lastminute.store.product.service.api.BuildOrder;
 import com.lastminute.store.product.util.Utility;
 
 import java.nio.file.Path;
@@ -21,8 +22,10 @@ public class Main {
     private static DataViewer<Order> dataViewer = new ViewOrder();
 
     public static void main(String[] args) {
+        argumentsValidator(args);
+        String filePath = args[0].split("=")[1];
         List<Product> products = new ArrayList<>();
-        Path path = Paths.get("/home/marco/git/DEMO-PROJECTS/product-service/data/order1.csv");
+        Path path = Paths.get(filePath);
         List<String> data = Utility.readFile(path.toFile());
         for (int n = 0; n < data.size(); n++) {
             if(n == 0) {
@@ -30,19 +33,23 @@ public class Main {
                 continue;
             }
             String line = data.get(n);
-            // extract data from CSV
-            String[] cells = line.split(",");
-            if(cells.length != 7) {
-                throw new MalformedInputExceptionException("Wrong column numbers for line=[" + (n+1) + "]. Expected 7, actual=[" + cells.length + "]");
-            }
-            Product product = extractProduct.extract(cells);
+            Product product = extractProduct.extract(line);
             products.add(product);
         }
         // fullfit the order
-        OrderService orderService = new OrderService();
+        BuildOrder orderService = new OrderService();
         Order order = orderService.build(products);
         // display output
         dataViewer.view(order);
+    }
+
+    private static void argumentsValidator(String[] args) {
+        if(args.length == 0) {
+            throw new MalformedInputExceptionException("Needed at least one argument: [filePath]");
+        }
+        if(!args[0].split("=")[0].equals("filePath") ) {
+            throw new MalformedInputExceptionException("Missing mandatory argument: [filePath]. Current arguments=[" + String.join(" ", args) + "]");
+        }
     }
 
 }
