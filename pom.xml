@@ -20,6 +20,7 @@
         <maven.surfire.plugin.version>3.0.0-M3</maven.surfire.plugin.version>
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
         <assertj.core.version>3.18.1</assertj.core.version>
+        <logback.version>1.2.3</logback.version>
     </properties>
 
     <dependencies>
@@ -40,6 +41,11 @@
             <artifactId>junit-jupiter-params</artifactId>
             <version>${junit.jupiter.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
         </dependency>
     </dependencies>
 

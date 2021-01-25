@@ -92,7 +92,6 @@ public class Decimal {
 
     @Override
     public String toString() {
-        return "Decimal{" + "value=" + value.setScale(2, ROUNDING_MODE).toString() +
-                '}';
+        return value.setScale(2, ROUNDING_MODE).toString();
     }
 }
