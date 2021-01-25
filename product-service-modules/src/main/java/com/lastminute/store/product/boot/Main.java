@@ -11,6 +11,7 @@ import com.lastminute.store.product.service.OrderService;
 import com.lastminute.store.product.service.api.BuildOrder;
 import com.lastminute.store.product.util.Utility;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -21,35 +22,63 @@ public class Main {
     private static DataReader<Product> extractProduct = new ExtractProduct();
     private static DataViewer<Order> dataViewer = new ViewOrder();
 
+    /**
+     * Mandatory arguments: <br>
+     * - dataFolder: the folder containing the cvs files with data <br>
+     * - files: comma separated names for the file to use. Example files=Input1.csv,Input2.csv
+     *
+     * @param args the arguments
+     */
     public static void main(String[] args) {
-        argumentsValidator(args);
-        String filePath = args[0].split("=")[1];
-        List<Product> products = new ArrayList<>();
-        Path path = Paths.get(filePath);
-        List<String> data = Utility.readFile(path.toFile());
-        for (int n = 0; n < data.size(); n++) {
-            if(n == 0) {
-                // jump the first line: expected comment line
-                continue;
+        String[] params = argumentsExtractor(args);
+        String dataFolder = params[0];
+        String files = params[1];
+        String[] allFiles = files.split(",");
+        for (String currentFile : allFiles) {
+            List<Product> products = new ArrayList<>();
+            Path path = Paths.get(dataFolder + File.separator + currentFile);
+            List<String> data = Utility.readFile(path.toFile());
+            for (int n = 0; n < data.size(); n++) {
+                if (n == 0) {
+                    // jump the first line: expected comment line
+                    continue;
+                }
+                String line = data.get(n);
+                Product product = extractProduct.extract(line);
+                products.add(product);
             }
-            String line = data.get(n);
-            Product product = extractProduct.extract(line);
-            products.add(product);
+            // fullfit the order
+            BuildOrder orderService = new OrderService();
+            Order order = orderService.build(products);
+            // display output
+            dataViewer.view(order);
         }
-        // fullfit the order
-        BuildOrder orderService = new OrderService();
-        Order order = orderService.build(products);
-        // display output
-        dataViewer.view(order);
     }
 
-    private static void argumentsValidator(String[] args) {
-        if(args.length == 0) {
-            throw new MalformedInputExceptionException("Needed at least one argument: [filePath]");
+    private static String[] argumentsExtractor(String[] args) {
+        if (args.length == 0) {
+            throw new MalformedInputExceptionException("Needed at least one argument: [files, dataFolder]");
         }
-        if(!args[0].split("=")[0].equals("filePath") ) {
-            throw new MalformedInputExceptionException("Missing mandatory argument: [filePath]. Current arguments=[" + String.join(" ", args) + "]");
+        String dataFolder = null;
+        String files = null;
+        for (String curr : args) {
+            String key = curr.split("=")[0];
+            switch (key) {
+                case ("dataFolder"):
+                    dataFolder = curr.split("=")[1]; // get the value
+                    break;
+                case ("files"):
+                    files = curr.split("=")[1]; // get the value
+                    break;
+                default:
+                    throw new MalformedInputExceptionException("Not recognized argument, accepted only: [files, dataFolder]. Current arguments=[" + String.join(" ", args) + "]");
+
+            }
         }
+        if(dataFolder == null || files == null) {
+            throw new MalformedInputExceptionException("Missing some argument: [files, dataFolder]. Current arguments=[" + String.join(" ", args) + "]");
+        }
+        return new String[]{dataFolder, files};
     }
 
 }

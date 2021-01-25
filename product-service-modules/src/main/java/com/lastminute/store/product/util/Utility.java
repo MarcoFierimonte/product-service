@@ -1,12 +1,12 @@
 package com.lastminute.store.product.util;
 
+import com.lastminute.store.product.exception.ReadFileException;
+
 import java.io.File;
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public final class Utility {
 
@@ -14,24 +14,13 @@ public final class Utility {
     }
 
     public static List<String> readFile(File file) {
-        List<String> list = new ArrayList<>();
+        List<String> list;
         try {
-            list.addAll(Files.readAllLines(file.toPath()));
+            list = new ArrayList<>(Files.readAllLines(file.toPath()));
         } catch (IOException e) {
-            // nothing to do
+            throw new ReadFileException("Error during loading file=[" + file + "]", e);
         }
         return list;
-    }
-
-    /**
-     * Generate short UUID (13 characters)
-     *
-     * @return short UUID
-     */
-    public static String shortUUID() {
-        UUID uuid = UUID.randomUUID();
-        long l = ByteBuffer.wrap(uuid.toString().getBytes()).getLong();
-        return Long.toString(l, Character.MAX_RADIX);
     }
 
 }
