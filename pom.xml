@@ -5,8 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.lastminute.store.product</groupId>
-    <artifactId>product-service-modules</artifactId>
+    <artifactId>product-service</artifactId>
     <name>Product Service</name>
+    <version>0.0.1</version>
     <description>Product service business logic modules</description>
 
     <properties>
