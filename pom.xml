@@ -11,7 +11,6 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>product-service-app</module>
         <module>product-service-modules</module>
     </modules>
 
@@ -42,7 +41,6 @@
             <version>${junit.jupiter.version}</version>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
 
     <build>
