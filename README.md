@@ -28,7 +28,7 @@ mvnw <task-and-options>
 
 ### Execute application
 ```bash
-./mvnw exec:java -Dexec.mainClass=com.lastminute.store.product.boot.Main -Dexec.args="dataFolder=<path-to-data> files=<comma-separed-files"
+./mvnw exec:java -Dexec.mainClass=com.lastminute.store.product.boot.Main -Dexec.args="dataFolder=<path-to-datafiles=<comma-separed-files"
 ```
 **Example:**
 ```bash
@@ -36,6 +36,7 @@ mvnw <task-and-options>
 ```
 ### Expected Output
 
+```
 INPUT 1
 1 book at 12.49
 1 music CD at 14.99
@@ -71,5 +72,5 @@ OUTPUT 3
 1 box of imported chocolates: 11.85
 Sales Taxes: 6.70
 Total: 74.68
-
+```
 
