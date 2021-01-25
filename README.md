@@ -1,4 +1,5 @@
 [![Develop Build](https://travis-ci.com/MarcoFierimonte/product-service.svg?branch=master)](https://travis-ci.com/github/MarcoFierimonte/product-service)
+[![CodeFactor](https://www.codefactor.io/repository/github/marcofierimonte/product-service/badge)](https://www.codefactor.io/repository/github/marcofierimonte/product-service)
 
 # Product Service
 
