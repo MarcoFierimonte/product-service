@@ -24,7 +24,7 @@ public class Main {
 
     /**
      * Mandatory arguments: <br>
-     * - dataFolder: the folder containing the cvs files with data <br>
+     * - dataFolder: the folder path containing the cvs files with data <br>
      * - files: comma separated names for the file to use. Example files=Input1.csv,Input2.csv
      *
      * @param args the arguments
@@ -34,13 +34,14 @@ public class Main {
         String dataFolder = params[0];
         String files = params[1];
         String[] allFiles = files.split(",");
+        // process each input file
         for (String currentFile : allFiles) {
-            List<Product> products = new ArrayList<>();
             Path path = Paths.get(dataFolder + File.separator + currentFile);
             List<String> data = Utility.readFile(path.toFile());
+            List<Product> products = new ArrayList<>();
             for (int n = 0; n < data.size(); n++) {
                 if (n == 0) {
-                    // jump the first line: expected comment line
+                    // jump the first line: expected a comment line
                     continue;
                 }
                 String line = data.get(n);
@@ -72,7 +73,6 @@ public class Main {
                     break;
                 default:
                     throw new MalformedInputExceptionException("Not recognized argument, accepted only: [files, dataFolder]. Current arguments=[" + String.join(" ", args) + "]");
-
             }
         }
         if(dataFolder == null || files == null) {

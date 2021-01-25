@@ -103,7 +103,6 @@ public class Order {
         return this;
     }
 
-
     public List<Product> getProducts() {
         if (products == null) {
             products = new ArrayList<>();
