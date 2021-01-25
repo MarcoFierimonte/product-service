@@ -3,12 +3,13 @@ package com.lastminute.store.product.service;
 import com.lastminute.store.product.exception.NoReceiptNumberAvailableException;
 import com.lastminute.store.product.model.Order;
 import com.lastminute.store.product.model.Product;
+import com.lastminute.store.product.service.api.BuildOrder;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class OrderService {
+public class OrderService implements BuildOrder {
 
     private static final List<Integer> availableReceipts = new ArrayList<>(50);
 
@@ -18,7 +19,8 @@ public class OrderService {
         }
     }
 
-    public Order insertOrder(List<Product> products) {
+    @Override
+    public Order build(List<Product> products) {
         Order order = new Order(new Date());
         order.add(products);
         // all products have the same order id

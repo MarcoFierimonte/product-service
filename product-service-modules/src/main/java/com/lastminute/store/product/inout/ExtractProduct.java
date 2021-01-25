@@ -1,11 +1,12 @@
-package com.lastminute.store.product.boot;
+package com.lastminute.store.product.inout;
 
 import com.lastminute.store.product.exception.MalformedInputExceptionException;
+import com.lastminute.store.product.inout.api.DataReader;
 import com.lastminute.store.product.model.Decimal;
 import com.lastminute.store.product.model.Product;
 import com.lastminute.store.product.model.ProductType;
 
-public final class DataReader {
+public class ExtractProduct implements DataReader<Product> {
 
     private static final Integer ID_POS = 0;
     private static final Integer TYPE_POS = 1;
@@ -15,11 +16,8 @@ public final class DataReader {
     private static final Integer QUANTITY_POS = 5;
     private static final Integer ORDER_ID_POS = 6;
 
-    private DataReader() {
-        // no op
-    }
-
-    public static Product extractProduct(String[] cells) {
+    @Override
+    public Product extract(String[] cells) {
         Product product;
         try {
             String productId = cells[ID_POS].trim();

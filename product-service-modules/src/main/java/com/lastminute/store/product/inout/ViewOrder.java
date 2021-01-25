@@ -1,5 +1,6 @@
-package com.lastminute.store.product.boot;
+package com.lastminute.store.product.inout;
 
+import com.lastminute.store.product.inout.api.DataViewer;
 import com.lastminute.store.product.model.Order;
 import com.lastminute.store.product.model.Product;
 import org.slf4j.Logger;
@@ -7,15 +8,12 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-public final class DataViewer {
+public class ViewOrder implements DataViewer<Order> {
 
-    private static final Logger LOG = LoggerFactory.getLogger(DataViewer.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ViewOrder.class);
 
-    private DataViewer() {
-        // no op
-    }
-
-    public static void view(Order order) {
+    @Override
+    public void view(Order order) {
         LOG.info("OUTPUT");
         List<Product> products = order.getProducts();
         for (Product p : products) {
@@ -24,4 +22,5 @@ public final class DataViewer {
         LOG.info("Sales Taxes: {}", order.getTotalTaxaction());
         LOG.info("Total: {}", order.getTotalPrice());
     }
+
 }

@@ -29,7 +29,7 @@ public class OrderServiceTest {
             products.add(new Product("id4", "Table", orderIdentifier, ProductType.GENERIC, Decimal.of(124), Boolean.TRUE));
 
             // when
-            Order actual = orderService.insertOrder(products);
+            Order actual = orderService.build(products);
 
             // then
             List<Product> actualProducts = actual.getProducts();
