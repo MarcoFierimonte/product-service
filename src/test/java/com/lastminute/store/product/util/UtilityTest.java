@@ -1,5 +1,6 @@
 package com.lastminute.store.product.util;
 
+import com.lastminute.store.product.exception.ReadFileException;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -12,6 +13,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class UtilityTest {
 
@@ -35,11 +38,16 @@ class UtilityTest {
     class UnhappyPath {
         @Test
         void shouldReturnAnEmptyListIfTheFileDoesNotExist() {
+            // given
+            File input = new File("not_existing_file");
             // when
-            List<String> actual = Utility.readFile(new File("not_existing_file"));
+            Exception exception = assertThrows(
+                    ReadFileException.class,
+                    () -> Utility.readFile(input));
 
             // then
-            assertThat(actual).isEmpty();
+            assertTrue(exception.getMessage()
+                                .contains("not_existing_file"));
         }
     }
 }
